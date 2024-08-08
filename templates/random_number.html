@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Генератор чисел</title>
+    <style>
+        :root {
+            --black: #000000;
+            --gray: #dcdcdc;
+        }
+
+        * {
+            font-family: 'Roboto', sans-serif;
+            box-sizing: border-box; /* Учитываем границы и заполнение при расчете размеров */
+        }
+
+        div {
+            margin-top: 40px;
+            font-size: 3em;
+        }
+
+        button {
+            margin-top: 40px;
+            outline: none;
+            height: 40px;
+            text-align: center;
+            width: 140px;
+            border-radius: 60px;
+            background: #fff;
+            border: 2px solid var(--black);
+            color: var(--green);
+            letter-spacing: 1px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        button:hover {
+            color: black;
+            background: var(--gray);
+        }
+
+        body {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+            text-align: center; /* Центрируем текст внутри body */
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script>
+        const socket = io();
+        socket.on('new_number', function(data) {
+            const numberDiv = document.getElementById('number');
+            numberDiv.innerHTML = `${data.number}`;
+        });
+        socket.emit('generate_number');
+    </script>
+</head>
+<body>
+    <h1>Сгенерированное число:</h1>
+    <div id="number"></div>
+    <button onclick="window.location.href='{{ url_for('logout') }}'">Выйти</button>
+</body>
+</html>
